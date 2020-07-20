@@ -4,7 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 
 require("dotenv").config();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3333;
 
 const expressStaticGzip = require("express-static-gzip");
 const morgan = require("morgan");

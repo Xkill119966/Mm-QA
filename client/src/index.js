@@ -6,6 +6,9 @@ import { setupAxios } from "./utils/setupAxios";
 import store from "./store/store";
 import App from "./App";
 
+import "./styles/index.css";
+import "./styles/fontStyles.css";
+
 setupAxios(axios, store);
 
 ReactDOM.render(

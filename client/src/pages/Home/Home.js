@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 // import { useSelector } from 'react-redux';
 // import { StoreState } from 'store';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import { Flex } from '../../@ui/Flex';
+import { Flex } from "../../@ui/Flex";
 // import circleShapes from 'assets/svg/circle_shapes.svg';
 
-import HomeWrapper from './Home.style';
-
+import HomeWrapper from "./Home.style";
 
 const Home = ({ right: Right }) => {
   const history = useHistory();
@@ -26,11 +25,9 @@ const Home = ({ right: Right }) => {
       <Flex>
         <div className="home__left">
           <div className="home__text">
-            <h1 className="text--light">Track</h1>
-            <h1 className="text--light">Manage</h1>
-            <h1 className="text--light">& Kill Bugs</h1>
-            <h1 className="text--bold">Effectively</h1>
-            <span>Universal bug tracker for everyone!</span>
+            <h1 className="text--light">Mm</h1>
+            <h1 className="text--light">QA</h1>
+            <span>Question and Answer About Islam</span>
             {/* <IconLink className="color--white" icon="arrow-right" to="/bugs">
               Wanna see the currenty active bugs?
             </IconLink> */}
