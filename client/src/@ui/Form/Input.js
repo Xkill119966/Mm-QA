@@ -1,8 +1,7 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ErrorMessage } from 'react-hook-form';
-
+import React from "react";
+import styled from "styled-components/macro";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { ErrorMessage } from "react-hook-form";
 
 const InputLabel = styled.label`
   display: flex;
@@ -13,7 +12,7 @@ const InputLabel = styled.label`
 
   background-color: ${p => p.theme.colors.offwhite};
   border: 1px solid
-    ${p => (p.indicateError ? p.theme.colors.red : 'transparent')};
+    ${p => (p.indicateError ? p.theme.colors.red : "transparent")};
 
   border-radius: 50px;
   height: 40px;
@@ -46,7 +45,7 @@ export const StyledInput = styled.input`
   }
 `;
 
-export const Textarea = styled(StyledInput).attrs(p => ({ as: 'textarea' }))`
+export const Textarea = styled(StyledInput).attrs(p => ({ as: "textarea" }))`
   padding: ${p => p.theme.space.medium}px;
   margin: 0;
   outline: 2px solid ${p => p.theme.colors.accent};
@@ -65,7 +64,7 @@ export const InputWrapper = styled.div`
     opacity: 0;
 
     &:before {
-      content: '* ';
+      content: "* ";
     }
   }
   .show-error {
@@ -74,19 +73,13 @@ export const InputWrapper = styled.div`
     transition: 0.3s;
   }
 `;
-
-
-
-export const Input = ({
-  icon,
-  errors,
-  inputRef,
-  ...props
-}) => {
+export const Input = ({ field, form, icon, errors, ...props }) => {
   return (
     <InputWrapper>
       <InputLabel indicateError={errors && errors[props.name]}>
-        <StyledInput type="text" ref={inputRef} {...props} />
+        {/* <StyledInput type="text" {...props} /> */}
+        <StyledInput type="text" {...field} {...props} />
+
         <span>
           <FontAwesomeIcon data-testid="icon" icon={icon} />
         </span>
@@ -94,7 +87,7 @@ export const Input = ({
       {errors && (
         <div
           data-testid="input-error"
-          className={`text--error ${errors[props.name] && 'show-error'}`}
+          className={`text--error ${errors[props.name] && "show-error"}`}
         >
           {/* <ErrorMessage errors={errors} name={props.name} /> */}
         </div>

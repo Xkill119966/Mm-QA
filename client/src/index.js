@@ -3,17 +3,18 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import { Provider } from "react-redux";
 import { setupAxios } from "./utils/setupAxios";
+import registerIcons from "./fontLib";
+import { actions } from "./store/ducks/auth.duck";
+import "./styles/fontStyles.css";
+import "./styles/index.css";
+
 import store from "./store/store";
 import App from "./App";
 
-import "./styles/index.css";
-import "./styles/fontStyles.css";
+registerIcons();
+
+store.dispatch(actions.checkAuth());
 
 setupAxios(axios, store);
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App store={store} />, document.getElementById("root"));

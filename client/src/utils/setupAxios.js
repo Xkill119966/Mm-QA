@@ -1,17 +1,31 @@
-
 export function setupAxios(axios, store) {
-  axios.interceptors.request.use(
-    config => {
-      const {
-        auth: { authToken }
-      } = store.getState();
+  const instance = axios.create({
+    baseURL: "/",
+    withCredentials: true
+  });
 
-      if (authToken) {
-        config.headers.Authorization = `Bearer ${authToken}`;
-      }
+  instance.interceptors.request.use(
+    config => {
+      // const {
+      //   auth: { authToken }
+      // } = store.getState();
+
+      // if (authToken) {
+      //   config.headers.Authorization = `Bearer ${authToken}`;
+      // }
+
+      console.log("Config", config)
+
+      config.timeout = 30000;
 
       return config;
     },
-    err => Promise.reject(err)
+    err => {
+      // handle error
+      if (axios.isCancel(err)) {
+        console.log(`request cancelled`);
+      }
+      return Promise.reject(err);
+    }
   );
 }

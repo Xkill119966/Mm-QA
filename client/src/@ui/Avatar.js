@@ -4,15 +4,6 @@ import { Link } from "react-router-dom";
 
 import { CircleIcon } from "./CircleIcon";
 
-// interface AvatarProps {
-//   width?: string;
-//   height?: string;
-//   username?: string;
-//   size?: string | number;
-//   showVerification?: boolean;
-//   isVerified?: boolean;
-//   [x: string]: any;
-// }
 
 const AvatarImage = styled.img(p => ({
   width: p.width || 150,

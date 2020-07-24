@@ -5,7 +5,7 @@ export const BugVillaLogo = ({ width }) => (
     style={{ width: width }}
     className="logo"
     src={Logo}
-    alt="BugVilla Logo"
+    alt="Mm-QA"
   />
 );
 

@@ -2,22 +2,14 @@ import React, { useEffect } from "react";
 // import { useSelector } from 'react-redux';
 // import { StoreState } from 'store';
 import { useHistory } from "react-router-dom";
+import { Link, Switch, Route, Redirect } from "react-router-dom";
 
 import { Flex } from "../../@ui/Flex";
 // import circleShapes from 'assets/svg/circle_shapes.svg';
 
-import HomeWrapper from "./Home.style";
-
-const Home = ({ right: Right }) => {
-  const history = useHistory();
-  // const isAuthenticated = useSelector(
-  //   (state: StoreState) => state.auth.isAuthenticated
-  // );
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     history.push('/dashboard/bugs');
-  //   }
-  // }, [isAuthenticated]);
+import HomeWrapper from "./Auht.style";
+import Login from "./Login/Login"
+const Auth = () => {
 
   return (
     <HomeWrapper>
@@ -34,11 +26,18 @@ const Home = ({ right: Right }) => {
           </div>
         </div>
         <div className="home__right">
-          <Right />
+          <Switch>
+            <Route path="/auth/login" component={Login} />
+            {/* <Route path="/auth/registration" component={Registration} />
+            <Route path="/auth/forgot-password" component={ForgotPassword} /> */}
+            <Redirect from="/auth" exact={true} to="/auth/login" />
+            <Redirect to="/auth/login" />
+          </Switch>
+          {/* <Right /> */}
         </div>
       </Flex>
     </HomeWrapper>
   );
 };
 
-export default Home;
+export default Auth;

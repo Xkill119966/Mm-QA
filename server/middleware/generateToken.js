@@ -20,11 +20,10 @@ module.exports = function generateUserToken(req, res) {
     .send(`
     <html>
       <head>
-        <title>BugVilla</title>
+        <title>Mm_QA</title>
       </head>
       <body>
-      <p>BugVilla Authorized.</p>
-      <p>You can close this window now</p>
+      <p>Mm_QA Authorized.</p>
       <script>
         window.onload = window.close();
         let originUrl = window.location.origin;
