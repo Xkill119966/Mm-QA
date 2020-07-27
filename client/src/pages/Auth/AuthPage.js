@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
-// import { useSelector } from 'react-redux';
-// import { StoreState } from 'store';
-import { useHistory } from "react-router-dom";
+import React from "react";
+
 import { Link, Switch, Route, Redirect } from "react-router-dom";
 
 import { Flex } from "../../@ui/Flex";
-// import circleShapes from 'assets/svg/circle_shapes.svg';
 
 import HomeWrapper from "./Auht.style";
 import Login from "./Login/Login"

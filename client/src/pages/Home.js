@@ -1,11 +1,10 @@
-import React, { Suspense, lazy , useEffect, useState} from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import Dashboard from "./Dashboard/Dashboard";
 // import { LayoutSplashScreen } from "../../../_metronic";
 import { DashboardBody, DashboardWrapper } from "./Home.Style";
 import Articles from "../pages/Articles/Articles";
 import Navbar from "../components/Navbar/Navbar";
-import Sidebar from "../components/Sidebar/Sidebar"
+import Sidebar from "../components/Sidebar/Sidebar";
 const Navigation = React.memo(() => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -28,7 +27,7 @@ const Navigation = React.memo(() => {
   );
 });
 
-export default function HomePage() {
+export default function HomePage({ userLastLocation }) {
   return (
     // <Suspense fallback={<LayoutSplashScreen />}>
     <Suspense>
@@ -37,7 +36,9 @@ export default function HomePage() {
         <div>
           <DashboardBody>
             <Switch>
-              {<Redirect exact from="/" to="/dashboard/articles" />}
+            {
+              <Redirect exact from="/" to="/dashboard/articles" />
+            }
               <Route path="/dashboard/articles" component={Articles} />
             </Switch>
           </DashboardBody>

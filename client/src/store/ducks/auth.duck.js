@@ -1,11 +1,16 @@
 import history from "../../utils/history";
 import { put, takeLatest } from "redux-saga/effects";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
 import http from "../../utils/httpInstance";
 // import { API } from './single-bug';
 // import { ApiAction } from 'store/middlewares/apiMiddleware';
 import { createAPIAction } from "../helpers";
 import { CLEAR_ALL_ERRORS } from "./errors";
 import { checkAuth } from "../../axios/auth";
+
+
 // action
 export const AUTH_LOGOUT = "auth/LOGOUT";
 export const AUTH_SET_USER = "auth/SET_USER";
@@ -25,30 +30,33 @@ const DEFAULT_STATE = {
   isAuthenticated: false,
   user: {}
 };
-export const reducer = (state = DEFAULT_STATE, action) => {
-  switch (action.type) {
-    case CHECK_AUTH.SUCCESS:
-      return { ...state, isAuthenticated: true, user: action.payload.data };
-    case AUTH_LOGOUT:
-      return {
-        ...state,
-        isAuthenticated: false,
-        user: null
-      };
+export const reducer = persistReducer(
+  { storage, key: "mmqa" },
+  (state = DEFAULT_STATE, action) => {
+    switch (action.type) {
+      case CHECK_AUTH.SUCCESS:
+        return { ...state, isAuthenticated: true, user: action.payload.data };
+      case AUTH_LOGOUT:
+        return {
+          ...state,
+          isAuthenticated: false,
+          user: null
+        };
 
-    case LOGIN.SUCCESS:
-      return {
-        ...state,
-        user: action.payload,
-        isAuthenticated: true
-      };
+      case LOGIN.SUCCESS:
+        return {
+          ...state,
+          user: action.payload,
+          isAuthenticated: true
+        };
 
-    case UPDATE_BIO.SUCCESS:
-      return { ...state, user: { ...state.user, bio: action.payload } };
-    default:
-      return state;
+      case UPDATE_BIO.SUCCESS:
+        return { ...state, user: { ...state.user, bio: action.payload } };
+      default:
+        return state;
+    }
   }
-};
+);
 
 export default reducer;
 
@@ -98,9 +106,11 @@ export function* saga() {
         url: "api/user/check-auth",
         data: null
       });
+      console.log("Check Auth")
       console.log("Data", data);
       yield put(actions.fulfillUser(data));
     } catch (error) {
+      history.push("/auth/login")
       yield put(actions.failure(error));
     }
   });

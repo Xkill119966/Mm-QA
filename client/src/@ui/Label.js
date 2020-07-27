@@ -8,6 +8,9 @@ const VARIANTS_MAP = {
   bug: "danger"
 };
 
+
+export const LabelTypes = 'bug' | 'feature' | 'help wanted' | 'enhancement';
+
 export const StyledLabel = styled.div`
   font-size: 14px;
   padding: 5px 10px;

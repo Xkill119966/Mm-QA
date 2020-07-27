@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, NavLinkProps } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CircleIcon from "./CircleIcon";
@@ -22,7 +22,7 @@ export const Link = styled(NavLink)`
   display: flex;
   align-items: center;
   ${p =>
-    p.isNav
+    p.isnav
       ? isNavStyles
       : css`
           svg {
@@ -46,7 +46,7 @@ const defaultProps = {
 
 export const IconLink = ({ to, icon, children, isNav, ...props }) => {
   return (
-    <Link isNav={isNav} {...props} to={to}>
+    <Link isnav={String(isNav)} {...props} to={to}>
       {isNav ? (
         <>
           <CircleIcon className="icon" size="28px" icon={icon} />

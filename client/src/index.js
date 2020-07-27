@@ -8,13 +8,14 @@ import { actions } from "./store/ducks/auth.duck";
 import "./styles/fontStyles.css";
 import "./styles/index.css";
 
-import store from "./store/store";
+import store, { persistor } from "./store/store";
 import App from "./App";
 
 registerIcons();
 
-store.dispatch(actions.checkAuth());
-
 setupAxios(axios, store);
-
-ReactDOM.render(<App store={store} />, document.getElementById("root"));
+store.dispatch(actions.checkAuth())
+ReactDOM.render(
+  <App store={store} persistor={persistor} />,
+  document.getElementById("root")
+);

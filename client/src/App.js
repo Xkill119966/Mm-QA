@@ -99,61 +99,62 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { LastLocationProvider } from "react-router-last-location";
 import Notifications from "react-notify-toast";
+import { PersistGate } from "redux-persist/integration/react";
+
 import { ThemeProvider } from "styled-components";
 import theme from "./@ui/theme";
 import { Routes } from "./router/Routes";
 import GlobalStyles from "./styles/GlobalStyles";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // import { I18nProvider, LayoutSplashScreen, ThemeProvider } from "./_metronic";
 
-export default function App({ store }) {
+export default function App({ store, persistor }) {
   return (
     /* Provide Redux store */
     <Provider store={store}>
       {/* <Provider store={store} loading={<LayoutSplashScreen />}> */}
 
       {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
-      {/* <PersistGate persistor={persistor}> */}
-      {/* Add high level `Suspense` in case if was not handled inside the React tree. */}
-      {/* <React.Suspense fallback={<LayoutSplashScreen />}> */}
-
-      {/* Override `basename` (e.g: `homepage` in `package.json`) */}
-      <BrowserRouter>
-        {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
-        <LastLocationProvider>
-          {/* Provide Metronic theme overrides. */}
-          <ThemeProvider theme={theme}>
-            <Notifications
-              options={{
-                zIndex: 200,
-                top: "85%",
-                colors: {
-                  error: {
-                    color: theme.colors.red,
-                    backgroundColor: theme.colors.redlight
-                  },
-                  success: {
-                    color: theme.colors.green,
-                    backgroundColor: theme.colors.greenlight
-                  },
-                  info: {
-                    color: theme.colors.primary,
-                    backgroundColor: theme.colors.accent
-                  }
-                }
-              }}
-            />
-            <GlobalStyles />
-            {/* Provide `react-intl` context synchronized with Redux state.  */}
-            {/* <I18nProvider> */}
-            {/* Render routes with provided `Layout`. */}
-            <Routes />
-            {/* </I18nProvider> */}
-          </ThemeProvider>
-        </LastLocationProvider>
-      </BrowserRouter>
-      {/* </React.Suspense> */}
-      {/* </PersistGate> */}
+      <PersistGate persistor={persistor}>
+        {/* Add high level `Suspense` in case if was not handled inside the React tree. */}
+        {/* <React.Suspense fallback={<LayoutSplashScreen />}> */}
+        <React.Suspense>
+          {/* Override `basename` (e.g: `homepage` in `package.json`) */}
+          <BrowserRouter>
+            {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
+            <LastLocationProvider>
+              {/* Provide Metronic theme overrides. */}
+              <ThemeProvider theme={theme}>
+                <Notifications
+                  options={{
+                    zIndex: 200,
+                    top: "85%",
+                    colors: {
+                      error: {
+                        color: theme.colors.red,
+                        backgroundColor: theme.colors.redlight
+                      },
+                      success: {
+                        color: theme.colors.green,
+                        backgroundColor: theme.colors.greenlight
+                      },
+                      info: {
+                        color: theme.colors.primary,
+                        backgroundColor: theme.colors.accent
+                      }
+                    }
+                  }}
+                />
+                <GlobalStyles />
+                <ErrorBoundary>
+                  <Routes />
+                </ErrorBoundary>
+              </ThemeProvider>
+            </LastLocationProvider>
+          </BrowserRouter>
+        </React.Suspense>
+      </PersistGate>
     </Provider>
   );
 }
