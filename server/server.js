@@ -64,25 +64,17 @@ app.use(passport.initialize());
 // routes
 app.use('/api/notifications',
   passport.authenticate('jwt', { session: false, failWithError: true }),
-  require('./routes/notificationsRoute'),
+  // require('./routes/notificationsRoute'),
   (_err, _req, res, _next) => {
     return res.notAuthorized({ error: 'Unauthorized' })
   }
 );
 app.use('/api/user',
   require('./routes/userRoute'),
-  require('./routes/imagesRoute'),
 );
 
 // failWithError: https://github.com/jaredhanson/passport/issues/458
-app.use('/api/bugs',
-  passport.authenticate('jwt', { session: false, failWithError: true }),
-  require('./routes/bugsRoute'),
-  require('./routes/commentsRoute'),
-  (_err, _req, res, _next) => {
-    return res.notAuthorized({ error: 'Unauthorized' })
-  }
-);
+
 
 // finally handle errors
 app.use(errorHandler);

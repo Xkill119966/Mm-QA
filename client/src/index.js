@@ -14,7 +14,7 @@ import App from "./App";
 registerIcons();
 
 setupAxios(axios, store);
-store.dispatch(actions.checkAuth())
+// store.dispatch(actions.checkAuth())
 ReactDOM.render(
   <App store={store} persistor={persistor} />,
   document.getElementById("root")

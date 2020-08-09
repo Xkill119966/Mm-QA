@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
-const Joi = require('@hapi/joi');
-const bcrypt = require('bcryptjs');
+const mongoose = require("mongoose");
+const Joi = require("@hapi/joi");
+const bcrypt = require("bcryptjs");
 
 const UserInfoSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
-    minlength: 6,
-    maxlength: 100
+    minlength: 1000,
+    maxlength: 10000
   },
   username: {
     type: String,
@@ -19,8 +19,8 @@ const UserInfoSchema = new mongoose.Schema({
   }
 });
 
-UserInfoSchema.set('toJSON', {
-  transform: function (doc, ret, options) {
+UserInfoSchema.set("toJSON", {
+  transform: function(doc, ret, options) {
     ret.id = ret._id;
     delete ret._id;
     delete ret.__v;
@@ -59,7 +59,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       minLength: 6,
       maxLength: 200,
-      default: '404 Bio Not Found'
+      default: "404 Bio Not Found"
     },
     avatar: {
       type: mongoose.Schema.Types.ObjectId
@@ -74,14 +74,19 @@ const UserSchema = new mongoose.Schema(
     },
     // new auth
     isVerified: { type: Boolean, default: false },
-    provider: { type: [String], enum: ['google', 'local'], required: true },
-    googleId: { type: String }
+    provider: {
+      type: [String],
+      enum: ["google", "local", "facebook"],
+      required: true
+    },
+    googleId: { type: String },
+    facebookId: String
   },
   { timestamps: true }
 );
 
-UserSchema.set('toJSON', {
-  transform: function (doc, ret, options) {
+UserSchema.set("toJSON", {
+  transform: function(doc, ret, options) {
     ret.id = ret._id;
     delete ret.password;
     delete ret._id;
@@ -89,10 +94,10 @@ UserSchema.set('toJSON', {
   }
 });
 
-UserSchema.pre('save', function (next) {
-  if (!this.provider.includes('local')) next();
+UserSchema.pre("save", function(next) {
+  if (!this.provider.includes("local")) next();
   // don't rehash the password everytime
-  if (this.isModified('password') || this.isNew) {
+  if (this.isModified("password") || this.isNew) {
     try {
       // Hash Password
       const salt = bcrypt.genSaltSync(10);
@@ -107,7 +112,7 @@ UserSchema.pre('save', function (next) {
   }
 });
 
-UserSchema.methods.isValidPassword = async function (password) {
+UserSchema.methods.isValidPassword = async function(password) {
   try {
     // Check/Compares password
     return await bcrypt.compare(password, this.password);
@@ -130,13 +135,13 @@ UserSchema.index(
 );
 
 // create the model
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 // validate the inputs
 const validateUser = user => {
   const schema = Joi.object({
     name: Joi.string()
-      .pattern(/^[a-zA-Z0-9\s]+$/, 'Name should not contain special symbols')
+      .pattern(/^[a-zA-Z0-9\s]+$/, "Name should not contain special symbols")
       .min(6)
       .max(100)
       .required(),
@@ -144,14 +149,14 @@ const validateUser = user => {
       .min(5)
       .max(100)
       .required()
-      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
     password: Joi.string()
       .min(6)
       .max(100)
       .required(),
     confirmPassword: Joi.any()
       .required()
-      .valid(Joi.ref('password')),
+      .valid(Joi.ref("password")),
     avatar: Joi.string(),
     date_joined: Joi.date().default(Date.now)
   });
@@ -164,7 +169,7 @@ const validateUserLogin = user => {
       .min(5)
       .max(100)
       .required()
-      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
     password: Joi.string()
       .min(6)
       .max(100)
